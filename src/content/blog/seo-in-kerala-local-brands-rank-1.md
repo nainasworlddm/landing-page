@@ -8,7 +8,7 @@ coverImage: "/blog/blog1/seo-kerala-hero.png"
 ---
 ## **Introduction: Kerala’s Growing Digital Frontier**
 
-![alt text](../../../public/blog/blog1/1.jpg)
+![alt text](/blog/blog1/1.jpg)
 
 Kerala’s digital landscape is undergoing a remarkable transformation. From the bustling tech hubs of **Kochi** to the cultural centers of **Trivandrum** and the entrepreneurial streets of Kozhikode, businesses of every size are realizing the undeniable power of **online visibility**. Today, whether you’re running a cozy café, a handcrafted boutique, or an ambitious tech startup, ranking high on **search engines** like **Google** is no longer optional — it’s essential for survival and growth.
 
@@ -24,7 +24,7 @@ So, if your business is ready to climb the **search rankings**, boost **search e
 
 ## **1\. Understanding SEO in the Kerala Context**
 
-![alt text](../../../public/blog/blog1/2.jpg)
+![alt text](/blog/blog1/2.jpg)
 
 **Search Engine Optimization (SEO)** is both an art and a science — the art of creating content that resonates with people, and the science of structuring it so **search engines** like Google can easily understand, rank, and recommend it to users.
 
@@ -70,7 +70,7 @@ Kerala brands that consistently maintain optimized **Google Business Profiles**,
 
 ## **2\. Why Local SEO Matters for Kerala Businesses**
 
-![alt text](../../../public/blog/blog1/3.jpg)
+![alt text](/blog/blog1/3.jpg)
 
 In Kerala’s fast-evolving digital ecosystem, **Local SEO** has become a make-or-break strategy for visibility and growth. Consumers here are **digitally savvy**, research-driven, and highly active across **search engines** and **social media platforms**. Whether they’re looking for a “restaurant near Marine Drive Kochi” or a “wedding photographer in Trivandrum,” their journey almost always begins with **Google Search** or **Google Maps**.
 
@@ -127,11 +127,11 @@ Kerala’s high literacy rate and mobile penetration make it an ideal market for
 
 To maximize results, integrate **Google Analytics** for performance tracking, conduct regular **website audits**, and partner with trusted **Local SEO services in Kerala** to ensure every technical and creative aspect aligns with your growth goals.
 
-![alt text](../../../public/blog/blog1/4.png)
+![alt text](/blog/blog1/4.png)
 
 ## **3\. Key SEO Strategies to Rank \#1 in Kerala**
 
-![alt text](../../../public/blog/blog1/5.png)
+![alt text](/blog/blog1/5.png)
 
 Kerala brands that consistently appear at the top of **Google search results** aren’t just lucky — they’re strategic. They leverage a blend of **targeted SEO strategies**, robust **content marketing**, and **technical excellence** to ensure maximum **search engine visibility** and lasting impact.
 
@@ -242,7 +242,7 @@ Social engagement sends **positive signals** to **search algorithms**, indirectl
 
 ## **4\. Case Study: From Local Business to \#1 on Google**
 
-![alt text](../../../public/blog/blog1/6.png)
+![alt text](/blog/blog1/6.png)
 
 A tourism company in Alappuzha aimed to grow its **organic traffic** through **Local SEO**. They optimized their **Google My Business**, built **local citations**, and focused on **content creation** with blogs like *“Top 10 Houseboat Experiences in Kerala.”*  
 By combining **on-page optimization**, **off-page SEO**, and **content strategy**, they achieved:
@@ -267,7 +267,7 @@ Fixing these can drastically improve your **search engine visibility** and **con
 
 ## **6\. The Future of SEO in Kerala**
 
-![alt text](../../../public/blog/blog1/7.png)
+![alt text](/blog/blog1/7.png)
 
 The future of Kerala’s SEO services is multilingual, data-driven, and user-focused. As Google algorithms evolve, **multilingual SEO** and **E-commerce SEO** will play huge roles in expanding regional reach.
 
