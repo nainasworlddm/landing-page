@@ -1,9 +1,12 @@
 //import React from 'react';
 const heroimg = '/assets/hero.png';
+import { allPostsMeta } from '../lib/getPosts';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Search, PenTool, Code, Megaphone, Clock,Users, PhoneCall } from 'lucide-react';
 
 const Home = () => {
+
+  const latestPosts = allPostsMeta.slice(0, 3);
 
   const processSteps = [
     {
@@ -292,28 +295,32 @@ const Home = () => {
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-      {blogPosts.map((post, index) => (
+      {latestPosts.map((post) => (
         <article
-          key={index}
+          key={post.slug}
           className="p-6 border border-gray-700 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 group bg-gray-800"
         >
           <div className="flex items-center space-x-2 mb-3">
             <span className="bg-primary-500/10 text-primary-500 px-2 py-1 rounded text-xs font-medium">
-              {post.category}
+              {post.category || 'General'}
             </span>
             <span className="text-gray-400 text-xs flex items-center space-x-1">
               <Clock className="w-3 h-3" />
-              <span>{post.readTime}</span>
+              <span>{post.readTime || ''}</span>
             </span>
           </div>
+
           <h3 className="font-[Syne] font-semibold text-white mb-3 group-hover:text-primary-500 transition-colors duration-200">
-            <Link to={post.href}>{post.title}</Link>
+            <Link to={`/blog/${post.slug}`}>{post.title}</Link>
           </h3>
-          <p className="text-gray-300 text-sm mb-4">{post.excerpt}</p>
+
+          {post.excerpt && (
+            <p className="text-gray-300 text-sm mb-4">{post.excerpt}</p>
+          )}
 
           {/* Short underline only under link text */}
           <Link
-            to={post.href}
+            to={`/blog/${post.slug}`}
             className="inline-flex items-center space-x-2 font-semibold text-primary-500 text-sm hover:text-primary-400 transition-all duration-200 group-hover:space-x-3"
           >
             <span className="relative after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-full after:bg-current after:transition-transform after:scale-x-100 group-hover:after:scale-x-100">
