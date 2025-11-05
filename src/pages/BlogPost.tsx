@@ -6,20 +6,14 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { getPostBySlug } from '../lib/getPosts';
 
 const BlogPost = () => {
-  // ensure slug is typed as string | undefined
-  const { slug } = useParams<{ slug?: string }>();
-
-  // Normalize possible ESM/CJS shapes for rehype plugins (some runtime builds expose .default)
-  const slugPlugin = (rehypeSlug as any)?.default ?? rehypeSlug;
-  const autolinkPlugin = (rehypeAutolinkHeadings as any)?.default ?? rehypeAutolinkHeadings;
-
-  const post = typeof slug === 'string' ? getPostBySlug(slug) : null;
+  const { slug } = useParams();
+  const post = slug ? getPostBySlug(slug) : null;
 
   if (!post) {
     return (
       <section className="section-padding bg-gray-900 text-white text-center">
         <div className="max-w-3xl mx-auto container-padding">
-          <h1 className="text-2xl font-[Syne] font-bold mb-4">Post not found</h1>
+          <h1 className="text-2xl font-bold mb-4">Post not found</h1>
           <Link to="/blog" className="text-primary-500 hover:underline">Back to Blog</Link>
         </div>
       </section>
@@ -29,23 +23,48 @@ const BlogPost = () => {
   const { meta, content } = post;
 
   return (
-    <article className="section-padding bg-gray-900 text-white">
+    <article className="section-padding bg-gray-900 text-white font-sans">
       <div className="max-w-3xl mx-auto container-padding">
-        <h1 className="text-3xl md:text-4xl font-[Syne] font-bold mb-2">{meta.title}</h1>
+        {/* Page title (outside markdown) */}
+        <h1 className="text-3xl md:text-4xl font-bold mb-2">
+          {meta.title}
+        </h1>
         <p className="text-gray-400 text-sm mb-8">
-          {new Date(meta.date).toLocaleDateString()} {meta.readTime ? `• ${meta.readTime}` : ''} {meta.category ? `• ${meta.category}` : ''}
+          {new Date(meta.date).toLocaleDateString()}
+          {meta.readTime ? ` • ${meta.readTime}` : ''}
+          {meta.category ? ` • ${meta.category}` : ''}
         </p>
 
-        <div className="prose prose-invert max-w-none prose-headings:font-[Syne]"></div>
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[slugPlugin, [autolinkPlugin, { behavior: 'append' }]]}
+        {/* Markdown content with Tailwind Typography */}
+        <div
+          className="
+            prose prose-invert max-w-none
+            prose-headings:font-semibold
+            prose-h1:text-3xl md:prose-h1:text-4xl
+            prose-h2:text-2xl md:prose-h2:text-3xl
+            prose-h3:text-xl md:prose-h3:text-2xl
+            prose-a:text-primary-500 hover:prose-a:text-primary-400
+            prose-p:leading-relaxed
+            prose-li:my-1
+            prose-img:rounded-xl
+            prose-pre:bg-gray-800
+            prose-hr:border-gray-700
+            prose-blockquote:border-gray-700
+          "
         >
-          {content}
-        </ReactMarkdown>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'append' }]]}
+            skipHtml
+          >
+            {content}
+          </ReactMarkdown>
+        </div>
 
         <div className="mt-10">
-          <Link to="/blog" className="text-primary-500 hover:underline">← Back to Blog</Link>
+          <Link to="/blog" className="text-primary-500 hover:underline">
+            ← Back to Blog
+          </Link>
         </div>
       </div>
     </article>

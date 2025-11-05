@@ -6,8 +6,6 @@ excerpt: "Complete guide to local SEO strategies that work in Kerala markets."
 category: "SEO"
 coverImage: "/blog/seo-kerala-hero.jpg"
 ---
-# **SEO in Kerala: How Local Brands Rank \#1**
-
 ## **Introduction: Kerala’s Growing Digital Frontier**
 
 <!--![][image1]-->
