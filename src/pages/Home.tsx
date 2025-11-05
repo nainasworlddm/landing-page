@@ -340,7 +340,7 @@ const Home = () => {
           Get Proposal
         </Link>
         <a
-          href="https://wa.me/+91XXXXXXXXXX"
+          href="https://wa.me/+918891498676"
           target="_blank"
           rel="noopener noreferrer"
           className="text-lg px-8 py-4 rounded-md font-semibold border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white transition-colors duration-200"
