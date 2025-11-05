@@ -1,14 +1,7 @@
 {
 "version": 2,
-"redirects": [
-{
-"source": "/(.)",
-"has": [{ "type": "host", "value": "www.ntdigital.in" }],
-"destination": "https://ntdigital.in/$1",
-"permanent": true
-}
-],
-"rewrites": [
-{ "source": "/(.)", "destination": "/index.html" }
+"routes": [
+{ "handle": "filesystem" },
+{ "src": "/(.*)", "dest": "/index.html" }
 ]
 }
