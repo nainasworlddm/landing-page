@@ -40,8 +40,8 @@ const BlogPost = () => {
           className="
             prose prose-invert max-w-none
             prose-headings:font-semibold
-            prose-h1:text-3xl md:prose-h1:text-4xl
-            prose-h2:text-2xl md:prose-h2:text-3xl
+            prose-h1:text-3xl md:prose-h1:text-4xl 
+            prose-h2:text-2xl md:prose-h2:text-3xl 
             prose-h3:text-xl md:prose-h3:text-2xl
             prose-a:text-primary-500 hover:prose-a:text-primary-400
             prose-p:leading-relaxed
@@ -50,6 +50,8 @@ const BlogPost = () => {
             prose-pre:bg-gray-800
             prose-hr:border-gray-700
             prose-blockquote:border-gray-700
+            [&_p>strong]:text-primary-500
+            [&_li>strong]:text-primary-500
           "
         >
           <ReactMarkdown
