@@ -4,7 +4,7 @@ slug: "seo-in-kerala-local-brands-rank-1"
 date: "2025-02-10"
 excerpt: "Complete guide to local SEO strategies that work in Kerala markets."
 category: "SEO"
-coverImage: "/blog/seo-kerala-hero.jpg"
+coverImage: "/blog/blog1/seo-kerala-hero.jpg"
 ---
 ## **Introduction: Kerala’s Growing Digital Frontier**
 

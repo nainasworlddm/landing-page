@@ -1,5 +1,5 @@
 //import React from 'react';
-import heroimg from '../assets/hero.png';
+const heroimg = '/assets/hero.png';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Search, PenTool, Code, Megaphone, Clock,Users, PhoneCall } from 'lucide-react';
 
