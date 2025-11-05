@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { MapPin, Phone, Mail, Clock, MessageCircle, CheckCircle2, X, Copy } from 'lucide-react';
 
 const Contact = () => {
@@ -16,6 +16,9 @@ const Contact = () => {
   const [copied, setCopied] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+
+  // Used for spam time-gate
+  const formStartRef = useRef<number>(Date.now());
 
   const serviceOptions = [
     'SEO Services',
@@ -46,7 +49,6 @@ const Contact = () => {
         : [...p.services, service],
     }));
 
-  // Build a plaintext summary for Copy fallback
   const buildPlainSummary = () => {
     return [
       'New contact request from ntdigital.in',
@@ -76,11 +78,24 @@ const Contact = () => {
     }
   };
 
-  // Submit via FormSubmit AJAX endpoint to stay on page
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Submit via FormSubmit AJAX and stay on page
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
     setSubmitError(null);
+
+    // Read honeypot from the DOM and time-gate
+    const formEl = e.currentTarget;
+    const honeyInput = formEl.querySelector('input[name="_honey"]') as HTMLInputElement | null;
+    const honey = honeyInput?.value?.trim() || '';
+    const elapsed = Date.now() - formStartRef.current;
+
+    // If honeypot filled or submitted too fast → treat as spam (do not send)
+    if (honey.length > 0 || elapsed < 1500) {
+      setShowThanks(true); // we can still show a generic thanks
+      setSubmitting(false);
+      return;
+    }
 
     try {
       const payload = {
@@ -91,12 +106,13 @@ const Contact = () => {
         services: formData.services.join(', '),
         message: formData.message,
         consent: formData.consent ? 'Agreed' : 'Not agreed',
-        // FormSubmit options
+
+        // FormSubmit config
         _subject: 'NT Digital — New Contact Request',
         _template: 'table',
-        _captcha: 'false',
+        _captcha: 'false', // keep false to avoid captcha page; rely on honeypot + time-gate
         _replyto: formData.email,
-        _honey: '', // honeypot
+        _honey: '', // empty for humans (bots usually fill the real field in DOM)
       };
 
       const res = await fetch('https://formsubmit.co/ajax/spamsg003@gmail.com', {
@@ -113,7 +129,6 @@ const Contact = () => {
         throw new Error(data?.message || 'Failed to submit form');
       }
 
-      // Success — show modal, reset form
       setShowThanks(true);
       setFormData({
         name: '',
@@ -124,9 +139,10 @@ const Contact = () => {
         message: '',
         consent: false,
       });
+      formStartRef.current = Date.now();
     } catch (err: any) {
       setSubmitError(err?.message || 'Something went wrong. Please try again or email us.');
-      setShowThanks(true); // still show modal so user can copy details
+      setShowThanks(true);
     } finally {
       setSubmitting(false);
     }
@@ -157,7 +173,15 @@ const Contact = () => {
                   Get Your Free Growth Audit
                 </h2>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+                  {/* Honeypot (spam trap) — keep in DOM but hidden for users */}
+                  <div className="absolute left-[-10000px] top-auto w-px h-px overflow-hidden" aria-hidden="true">
+                    <label>
+                      Do not fill this field
+                      <input type="text" name="_honey" tabIndex={-1} autoComplete="off" />
+                    </label>
+                  </div>
+
                   {/* name / email */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -186,9 +210,7 @@ const Contact = () => {
                   {/* phone / company */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium mb-2 text-gray-300">
-                        Phone / WhatsApp *
-                      </label>
+                      <label className="block text-sm font-medium mb-2 text-gray-300">Phone / WhatsApp *</label>
                       <input
                         name="phone"
                         required
@@ -218,7 +240,6 @@ const Contact = () => {
                         <label key={s} className="flex items-center space-x-3 cursor-pointer text-gray-300">
                           <input
                             type="checkbox"
-                            name={`services-${s}`}
                             checked={formData.services.includes(s)}
                             onChange={() => handleServiceChange(s)}
                             className="w-4 h-4 text-primary-500 border-gray-500 rounded focus:ring-primary-500 focus:ring-1"
@@ -231,9 +252,7 @@ const Contact = () => {
 
                   {/* Message */}
                   <div>
-                    <label className="block text-sm font-medium mb-2 text-gray-300">
-                      Tell us about your goals
-                    </label>
+                    <label className="block text-sm font-medium mb-2 text-gray-300">Tell us about your goals</label>
                     <textarea
                       name="message"
                       rows={5}
@@ -269,9 +288,7 @@ const Contact = () => {
                   </button>
 
                   {submitError && (
-                    <p className="text-sm text-red-400 mt-2">
-                      {submitError}
-                    </p>
+                    <p className="text-sm text-red-400 mt-2">{submitError}</p>
                   )}
                 </form>
 
@@ -283,10 +300,9 @@ const Contact = () => {
 
             {/* Contact Info (unchanged) */}
             <div className="space-y-8">
+              {/* ... your existing contact cards ... */}
               <div className="p-6 border border-gray-700 rounded-2xl bg-gray-800 shadow-sm">
-                <h3 className="font-[Syne] font-semibold text-lg mb-6 text-white">
-                  Get in Touch
-                </h3>
+                <h3 className="font-[Syne] font-semibold text-lg mb-6 text-white">Get in Touch</h3>
                 <div className="space-y-4 text-sm text-gray-300">
                   <div className="hidden">
                     <div className="flex items-start space-x-3">
@@ -301,42 +317,29 @@ const Contact = () => {
                       </div>
                     </div>
                   </div>
-
                   <div className="flex items-start space-x-3">
                     <Phone className="w-5 h-5 text-primary-500 mt-1" />
                     <div>
                       <p className="font-medium text-white">Phone</p>
-                      <a href="tel:+918891498676" className="hover:underline">
-                        +91‑8891498676
-                      </a>
+                      <a href="tel:+918891498676" className="hover:underline">+91‑8891498676</a>
                     </div>
                   </div>
-
                   <div className="flex items-start space-x-3">
                     <Mail className="w-5 h-5 text-primary-500 mt-1" />
                     <div>
                       <p className="font-medium text-white">Email</p>
-                      <a href="mailto:nainasworlddm@gmail.com" className="hover:underline">
-                        nainasworlddm@gmail.com
-                      </a>
+                      <a href="mailto:nainasworlddm@gmail.com" className="hover:underline">nainasworlddm@gmail.com</a>
                     </div>
                   </div>
-
                   <div className="flex items-start space-x-3">
                     <MessageCircle className="w-5 h-5 text-primary-500 mt-1" />
                     <div>
                       <p className="font-medium text-white">WhatsApp</p>
-                      <a
-                        href="https://wa.me/+918891498676"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:underline"
-                      >
+                      <a href="https://wa.me/+918891498676" target="_blank" rel="noopener noreferrer" className="hover:underline">
                         +91‑8891498676
                       </a>
                     </div>
                   </div>
-
                   <div className="flex items-start space-x-3">
                     <Clock className="w-5 h-5 text-primary-500 mt-1" />
                     <div>
@@ -347,27 +350,14 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Quick contact */}
               <div className="p-6 border border-gray-700 rounded-2xl bg-gray-800 shadow-sm">
-                <h3 className="font-[Syne] font-semibold text-lg mb-4 text-white">
-                  Need Immediate Help?
-                </h3>
-                <p className="text-gray-300 text-sm mb-6">
-                  For urgent queries, contact us directly below.
-                </p>
+                <h3 className="font-[Syne] font-semibold text-lg mb-4 text-white">Need Immediate Help?</h3>
+                <p className="text-gray-300 text-sm mb-6">For urgent queries, contact us directly below.</p>
                 <div className="space-y-3">
-                  <a
-                    href="tel:+918891498676"
-                    className="w-full block text-center px-6 py-3 rounded-md font-semibold border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white transition-colors duration-200"
-                  >
+                  <a href="tel:+918891498676" className="w-full block text-center px-6 py-3 rounded-md font-semibold border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white transition-colors duration-200">
                     Call Now
                   </a>
-                  <a
-                    href="https://wa.me/+918891498676"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full block text-center px-6 py-3 rounded-md font-semibold bg-primary-500 text-white hover:bg-primary-600 transition-colors duration-200"
-                  >
+                  <a href="https://wa.me/+918891498676" target="_blank" rel="noopener noreferrer" className="w-full block text-center px-6 py-3 rounded-md font-semibold bg-primary-500 text-white hover:bg-primary-600 transition-colors duration-200">
                     WhatsApp Now
                   </a>
                 </div>
@@ -378,12 +368,7 @@ const Contact = () => {
       </section>
 
       {/* Thank‑you modal */}
-      <div
-        className={`fixed inset-0 z-50 transition ${
-          showThanks ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-        aria-hidden={!showThanks}
-      >
+      <div className={`fixed inset-0 z-50 transition ${showThanks ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} aria-hidden={!showThanks}>
         <div className="absolute inset-0 bg-black/60" onClick={() => setShowThanks(false)} />
         <div className="relative flex items-center justify-center min-h-full p-4">
           <div className="w-full max-w-md rounded-2xl bg-gray-800 border border-gray-700 shadow-xl p-6 text-center">
@@ -395,16 +380,11 @@ const Contact = () => {
             </h4>
             {submitError ? (
               <p className="text-gray-300 mb-4">
-                It looks like email couldn’t be opened automatically. You can copy your message and
-                email us at{' '}
-                <a href="mailto:spamsg003@gmail.com" className="text-primary-500 underline">
-                  spamsg003@gmail.com
-                </a>.
+                If email didn’t go through, copy your message and send it to{' '}
+                <a href="mailto:spamsg003@gmail.com" className="text-primary-500 underline">spamsg003@gmail.com</a>.
               </p>
             ) : (
-              <p className="text-gray-300 mb-4">
-                We’ve received your details and will get back to you within 24 hours.
-              </p>
+              <p className="text-gray-300 mb-4">We’ll get back to you within 24 hours.</p>
             )}
 
             <div className="flex items-center justify-center gap-3 mb-2">
@@ -425,7 +405,7 @@ const Contact = () => {
             </div>
 
             <p className="text-xs text-gray-400">
-              Tip: The first time you use FormSubmit with this email, check your inbox for their verification.
+              Note: First submission triggers FormSubmit verification — check your inbox.
             </p>
           </div>
         </div>
