@@ -31,30 +31,6 @@ const Home = () => {
     }
   ];
 
-  const blogPosts = [
-    {
-      title: 'SEO in Kochi: How Local Brands Rank #1',
-      excerpt: 'Complete guide to local SEO strategies that work in Kerala markets.',
-      readTime: '5 min read',
-      category: 'SEO',
-      href: '/blog/seo-in-kochi-local-brands-rank-1'
-    },
-    {
-      title: 'Meta Ads in Kerala: Costs, ROAS Benchmarks, and Creative Tips',
-      excerpt: 'Everything you need to know about Facebook and Instagram advertising in Kerala.',
-      readTime: '7 min read',
-      category: 'Meta Ads',
-      href: '/blog/meta-ads-kerala-costs-roas-benchmarks'
-    },
-    {
-      title: 'Movie Promotion in Kerala: Digital Strategies That Fill Theatres',
-      excerpt: 'How Malayalam films use digital marketing to drive box office success.',
-      readTime: '6 min read',
-      category: 'Movie Promotion',
-      href: '/blog/movie-promotion-kerala-digital-strategies'
-    }
-  ];
-
   return (
     <>
     {/* Hero Section */}
