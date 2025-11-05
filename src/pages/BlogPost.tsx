@@ -47,6 +47,7 @@ const BlogPost = () => {
             prose-p:leading-relaxed
             prose-li:my-1
             prose-img:rounded-xl
+            prose-img:block prose-img:mx-auto prose-img:max-w-full
             prose-pre:bg-gray-800
             prose-hr:border-gray-700
             prose-blockquote:border-gray-700
