@@ -115,7 +115,7 @@ const Contact = () => {
         _honey: '', // empty for humans (bots usually fill the real field in DOM)
       };
 
-      const res = await fetch('https://formsubmit.co/ajax/spamsg003@gmail.com', {
+      const res = await fetch('https://formsubmit.co/ajax/nainasworlddm@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -381,7 +381,7 @@ const Contact = () => {
             {submitError ? (
               <p className="text-gray-300 mb-4">
                 If email didn’t go through, copy your message and send it to{' '}
-                <a href="mailto:spamsg003@gmail.com" className="text-primary-500 underline">spamsg003@gmail.com</a>.
+                <a href="mailto:nainasworlddm@gmail.com" className="text-primary-500 underline">nainasworlddm@gmail.com</a>.
               </p>
             ) : (
               <p className="text-gray-300 mb-4">We’ll get back to you within 24 hours.</p>
