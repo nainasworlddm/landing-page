@@ -405,7 +405,7 @@ const Contact = () => {
             </div>
 
             <p className="text-xs text-gray-400">
-              Note: First submission triggers FormSubmit verification — check your inbox.
+              
             </p>
           </div>
         </div>
